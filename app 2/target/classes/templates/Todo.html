@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+</head>
+<body>
+    <h1>Todo List</h1>
+
+    <!-- Form for creating a new Todo -->
+    <h2>Add Todo</h2>
+    <form th:action="@{/addTodo}" method="post" th:object="${todo}">
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required/><br/>
+        <input type="hidden" th:field="*{userId}" th:value="${todo.userId}" />
+        <label>Description:</label>
+        <input type="text" th:field="*{discription}" required/><br/>
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <h2>Existing Todos</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="todo : ${todos}">
+                <td th:text="${todo.id}"></td>
+                <td th:text="${todo.name}"></td>
+                <td th:text="${todo.discription}"></td>
+                <td>
+                    <form th:action="@{'/todos/' + ${todo.id}}" method="post" th:object="${user}">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
